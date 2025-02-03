@@ -1,10 +1,14 @@
 const reponse = await fetch (`http://localhost:5678/api/works`);
 const works = await reponse.json();
 
+//Génération des projets via API
+
 function genererWorks(works) {
+    const sectionProjet = document.querySelector(".gallery");
+    sectionProjet.innerHTML= "";
+
     for(let i = 0; i < works.length; i++) {
-        const projet = works[i];
-        const sectionProjet = document.querySelector(".gallery");
+        const projet = works[i]; 
         const articleProjet = document.createElement("figure");
         
     
@@ -13,11 +17,74 @@ function genererWorks(works) {
         imageElement.src = projet.imageUrl;
         const nomElement = document.createElement("figcaption");
         nomElement.textContent = projet.title;
+       
+       
 
         sectionProjet.appendChild(articleProjet);
         articleProjet.appendChild(imageElement);
         articleProjet.appendChild(nomElement);
+        
     }
+   
 }
 
 genererWorks(works);
+
+// création des boutons de filtres
+
+const conteneurFiltres = document.querySelector(".filtres");
+conteneurFiltres.classList.add("filtres")
+
+const buttonTous = document.createElement("button");
+buttonTous.textContent = "Tous";
+buttonTous.classList.add("filtresButton");
+
+
+const buttonObjets = document.createElement("button");
+buttonObjets.textContent = "Objets"
+buttonObjets.classList.add("filtresButton");
+
+const buttonAppartements = document.createElement("button");
+buttonAppartements.textContent = "Appartements";
+buttonAppartements.classList.add("filtresButton");
+
+const buttonHotel = document.createElement("button");
+buttonHotel.textContent = "Hotels & restaurants";
+buttonHotel.classList.add("filtresButton");
+
+
+
+conteneurFiltres.appendChild(buttonTous);
+conteneurFiltres.appendChild(buttonObjets);
+conteneurFiltres.appendChild(buttonAppartements);
+conteneurFiltres.appendChild(buttonHotel);
+
+// création fonction pour filtrer
+
+function filtrerParCategorie(categorieId) {
+    let projetsFiltres 
+    if (categorieId === "all") {
+        projetsFiltres = works;
+    } else {
+        projetsFiltres = works.filter(projet => projet.categoryId === categorieId);
+    }
+    genererWorks(projetsFiltres);
+}
+
+// mise en place des eventlistener sur les bouttons filtres
+
+buttonTous.addEventListener("click", function()  {
+    filtrerParCategorie("all");
+})
+
+buttonObjets.addEventListener("click", function() {
+    filtrerParCategorie(1);
+})
+
+buttonAppartements.addEventListener("click", function() {
+    filtrerParCategorie(2);
+})
+
+buttonHotel.addEventListener("click", function() {
+    filtrerParCategorie(3);
+})

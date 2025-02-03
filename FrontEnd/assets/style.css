@@ -94,10 +94,27 @@ nav li {
 	padding: 0 10px;
 	font-size: 1.2em;
 }
-
-li:hover {
-	color: #B1663C;
+nav a {
+	text-decoration: none;
+	color: black;
 }
+
+li:hover,a:hover {
+	color: #B1663C;
+
+}
+
+.login-actif { 
+	font-weight: bold;
+	pointer-events: none;
+}
+
+.login {
+	display: flex;
+	justify-content: center;
+	padding-top: 100px;
+}
+
 #introduction {
 	display: flex;
 	align-items: center;
@@ -184,5 +201,73 @@ footer nav ul {
 	display: flex;
 	justify-content: flex-end;
 	margin: 2em
+}
+
+.filtres {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	margin-bottom:40px ;
+	
+}
+
+.filtresButton {
+	font-family: 'Syne';
+	font-weight: 700;
+	font-size:16px;
+	color: #1D6154;
+	background-color:white;
+	margin : 5px;
+	width: 200px;
+	height: 37px;
+	text-align: center;
+	border-radius: 60px;
+	border-color: #1D6154 ;
+	border-width: 1px;
+	
+}
+
+.filtresButton:hover {
+	background-color: #1D6154;
+	color: white;
+}
+
+/** section login **/
+
+#connexion {
+	width: 379px;
+margin:auto;
+margin-bottom: 450px;
+}
+#connexion > * {
+	text-align: center;
+
+}
+#connexion h2{
+	margin-bottom: 20px;
+}
+#connexion form {
+	text-align: left;
+	margin-top:30px;
+	display: flex;
+	flex-direction: column;
+}
+
+#connexion input {
+	height: 50px;
+	
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+#connexion label {
+	margin: 2em 0 1em 0;
+}
+#connexion input[type="submit"]{
+	height: 36px;
+	width: 179px;
+}
+#connexion p {
+	text-decoration: underline;
 }
 
