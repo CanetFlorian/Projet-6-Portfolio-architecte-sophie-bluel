@@ -473,11 +473,14 @@ footer nav ul {
 	margin-left:80px;
 	margin-right: 80px;
 }
-
+.gallery2 figure {
+	position: relative;
+}
 .gallery2 img {
 	width: 100%;
-
+	height: auto;
 }
+
 
 .trait-gallerie {
 	display:flex;
@@ -502,3 +505,27 @@ footer nav ul {
 	width: 237px;
 	border-radius: 60px;
 }
+
+.delete-photo {
+	display:flex;
+	justify-content: center;
+	align-items: center;
+	position:absolute;
+	text-align: center;
+	cursor:pointer;
+	background-color: black;
+	color:white;
+	width: 17px;
+	height: 17px;
+	border-radius: 2px;
+	top:5px;
+	right:5px;
+}
+
+.delete-photo::before {
+	font-size:10px;
+	position:absolute;
+	top:8px;
+	right:4px;
+}
+

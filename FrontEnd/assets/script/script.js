@@ -1,139 +1,144 @@
 
 
-window.addEventListener("DOMContentLoaded", async() => {
+window.addEventListener("DOMContentLoaded", async () => {
 
-    const reponse = await fetch (`http://localhost:5678/api/works`);
+    const reponse = await fetch(`http://localhost:5678/api/works`);
     const works = await reponse.json();
 
     const loginLogout = document.querySelector("#loginLogoutLien");
     const modifierBtn = document.querySelector("#modifierBtn");
     const filtres = document.querySelector(".filtres");
-    
+
     // vérif tokken dans localstorage
-    
+
     const token = localStorage.getItem("cléToken");
-    
+
     if (token) {
         loginLogout.textContent = "Logout";
         filtres.style.display = "none";
         modifierBtn.style.display = "flex";
-    
+
         loginLogout.addEventListener("click", () => {
             localStorage.removeItem("cléToken");
-    
+
         });
     } else {
-    
+
         loginLogout.textContent = "Login";
         filtres.style.display = "flex";
         modifierBtn.style.display = "none";
     };
-    
 
-//Génération des projets via API
 
-function genererWorks(works) {
-    const sectionProjet = document.querySelector(".gallery");
-    sectionProjet.innerHTML= "";
+    //Génération des projets via API
 
-    for(let i = 0; i < works.length; i++) {
-        const projet = works[i]; 
-        const articleProjet = document.createElement("figure");
-        
-    
-        
-        const imageElement = document.createElement("img");
-        imageElement.src = projet.imageUrl;
-        const nomElement = document.createElement("figcaption");
-        nomElement.textContent = projet.title;
-       
-       
+    function genererWorks(works) {
+        const sectionProjet = document.querySelector(".gallery");
+        sectionProjet.innerHTML = "";
 
-        sectionProjet.appendChild(articleProjet);
-        articleProjet.appendChild(imageElement);
-        articleProjet.appendChild(nomElement);
-        
+        for (let i = 0; i < works.length; i++) {
+            const projet = works[i];
+            const articleProjet = document.createElement("figure");
+
+
+
+            const imageElement = document.createElement("img");
+            imageElement.src = projet.imageUrl;
+            const nomElement = document.createElement("figcaption");
+            nomElement.textContent = projet.title;
+
+
+
+            sectionProjet.appendChild(articleProjet);
+            articleProjet.appendChild(imageElement);
+            articleProjet.appendChild(nomElement);
+
+        }
+
     }
-   
-}
 
-genererWorks(works);
+    genererWorks(works);
 
-// génération galerie modale
+    // génération galerie modale
 
-function genererWorksGalerie(works) {
-    const sectionProjetGalerie = document.querySelector(".gallery2");
-    
-    for(let i = 0; i < works.length ; i ++) {
-        const projetGalerie = works [i];
-        const articleProjetGalerie = document.createElement("figure")
-        
-        const imageElementGalerie = document.createElement("img");
-        imageElementGalerie.src = projetGalerie.imageUrl;
+    function genererWorksGalerie(works) {
+        const sectionProjetGalerie = document.querySelector(".gallery2");
 
-        sectionProjetGalerie.appendChild(articleProjetGalerie);
-        articleProjetGalerie.appendChild(imageElementGalerie);
+        for (let i = 0; i < works.length; i++) {
+            const projetGalerie = works[i];
+            const articleProjetGalerie = document.createElement("figure")
+           
+            const imageElementGalerie = document.createElement("img");
+            imageElementGalerie.src = projetGalerie.imageUrl;
+            // Créer l'icône de la corbeille
+            const deleteIcon = document.createElement('i');
+            deleteIcon.classList.add('fa-solid', 'fa-trash-can', 'fa-sm');
+            deleteIcon.classList.add('delete-photo');
+
+            sectionProjetGalerie.appendChild(articleProjetGalerie);
+            articleProjetGalerie.appendChild(imageElementGalerie);
+            articleProjetGalerie.appendChild(deleteIcon);
+        }
     }
-}
-genererWorksGalerie(works);
-// création des boutons de filtres
+    genererWorksGalerie(works);
+    // création des boutons de filtres
 
-const conteneurFiltres = document.querySelector(".filtres");
-conteneurFiltres.classList.add("filtres")
+    const conteneurFiltres = document.querySelector(".filtres");
+    conteneurFiltres.classList.add("filtres")
 
-const buttonTous = document.createElement("button");
-buttonTous.textContent = "Tous";
-buttonTous.classList.add("filtresButton");
-
-
-const buttonObjets = document.createElement("button");
-buttonObjets.textContent = "Objets"
-buttonObjets.classList.add("filtresButton");
-
-const buttonAppartements = document.createElement("button");
-buttonAppartements.textContent = "Appartements";
-buttonAppartements.classList.add("filtresButton");
-
-const buttonHotel = document.createElement("button");
-buttonHotel.textContent = "Hotels & restaurants";
-buttonHotel.classList.add("filtresButton");
+    const buttonTous = document.createElement("button");
+    buttonTous.textContent = "Tous";
+    buttonTous.classList.add("filtresButton");
 
 
+    const buttonObjets = document.createElement("button");
+    buttonObjets.textContent = "Objets"
+    buttonObjets.classList.add("filtresButton");
 
-conteneurFiltres.appendChild(buttonTous);
-conteneurFiltres.appendChild(buttonObjets);
-conteneurFiltres.appendChild(buttonAppartements);
-conteneurFiltres.appendChild(buttonHotel);
+    const buttonAppartements = document.createElement("button");
+    buttonAppartements.textContent = "Appartements";
+    buttonAppartements.classList.add("filtresButton");
 
-// création fonction pour filtrer
+    const buttonHotel = document.createElement("button");
+    buttonHotel.textContent = "Hotels & restaurants";
+    buttonHotel.classList.add("filtresButton");
 
-function filtrerParCategorie(categorieId) {
-    let projetsFiltres 
-    if (categorieId === "all") {
-        projetsFiltres = works;
-    } else {
-        projetsFiltres = works.filter(projet => projet.categoryId === categorieId);
+
+
+    conteneurFiltres.appendChild(buttonTous);
+    conteneurFiltres.appendChild(buttonObjets);
+    conteneurFiltres.appendChild(buttonAppartements);
+    conteneurFiltres.appendChild(buttonHotel);
+
+    // création fonction pour filtrer
+
+    function filtrerParCategorie(categorieId) {
+        let projetsFiltres
+        if (categorieId === "all") {
+            projetsFiltres = works;
+        } else {
+            projetsFiltres = works.filter(projet => projet.categoryId === categorieId);
+        }
+        genererWorks(projetsFiltres);
     }
-    genererWorks(projetsFiltres);
-}
 
-// mise en place des eventlistener sur les bouttons filtres
+    // mise en place des eventlistener sur les bouttons filtres
 
-buttonTous.addEventListener("click", function()  {
-    filtrerParCategorie("all");
-})
+    buttonTous.addEventListener("click", function () {
+        filtrerParCategorie("all");
+    })
 
-buttonObjets.addEventListener("click", function() {
-    filtrerParCategorie(1);
-})
+    buttonObjets.addEventListener("click", function () {
+        filtrerParCategorie(1);
+    })
 
-buttonAppartements.addEventListener("click", function() {
-    filtrerParCategorie(2);
-})
+    buttonAppartements.addEventListener("click", function () {
+        filtrerParCategorie(2);
+    })
 
-buttonHotel.addEventListener("click", function() {
-    filtrerParCategorie(3);
-})
+    buttonHotel.addEventListener("click", function () {
+        filtrerParCategorie(3);
+    })
 
 });
 
