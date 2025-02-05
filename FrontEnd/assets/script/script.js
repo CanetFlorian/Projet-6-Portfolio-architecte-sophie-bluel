@@ -1,5 +1,34 @@
-const reponse = await fetch (`http://localhost:5678/api/works`);
-const works = await reponse.json();
+
+
+window.addEventListener("DOMContentLoaded", async() => {
+
+    const reponse = await fetch (`http://localhost:5678/api/works`);
+    const works = await reponse.json();
+
+    const loginLogout = document.querySelector("#loginLogoutLien");
+    const modifierBtn = document.querySelector("#modifierBtn");
+    const filtres = document.querySelector(".filtres");
+    
+    // vérif tokken dans localstorage
+    
+    const token = localStorage.getItem("cléToken");
+    
+    if (token) {
+        loginLogout.textContent = "Logout";
+        filtres.style.display = "none";
+        modifierBtn.style.display = "flex";
+    
+        loginLogout.addEventListener("click", () => {
+            localStorage.removeItem("cléToken");
+    
+        });
+    } else {
+    
+        loginLogout.textContent = "Login";
+        filtres.style.display = "flex";
+        modifierBtn.style.display = "none";
+    };
+    
 
 //Génération des projets via API
 
@@ -30,6 +59,23 @@ function genererWorks(works) {
 
 genererWorks(works);
 
+// génération galerie modale
+
+function genererWorksGalerie(works) {
+    const sectionProjetGalerie = document.querySelector(".gallery2");
+    
+    for(let i = 0; i < works.length ; i ++) {
+        const projetGalerie = works [i];
+        const articleProjetGalerie = document.createElement("figure")
+        
+        const imageElementGalerie = document.createElement("img");
+        imageElementGalerie.src = projetGalerie.imageUrl;
+
+        sectionProjetGalerie.appendChild(articleProjetGalerie);
+        articleProjetGalerie.appendChild(imageElementGalerie);
+    }
+}
+genererWorksGalerie(works);
 // création des boutons de filtres
 
 const conteneurFiltres = document.querySelector(".filtres");
@@ -88,3 +134,6 @@ buttonAppartements.addEventListener("click", function() {
 buttonHotel.addEventListener("click", function() {
     filtrerParCategorie(3);
 })
+
+});
+

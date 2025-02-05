@@ -1,6 +1,7 @@
-function connexionUser() {
-    const formulaireLogin = document.querySelector(".formulaire-login")
-    const messageErreur = document.querySelector("#message-erreur")
+async function connexionUser() {
+    const formulaireLogin = document.querySelector(".formulaire-login");
+    const messageErreur = document.querySelector("#message-erreur");
+
 
     formulaireLogin.addEventListener("submit", async function (event) {
 
@@ -25,12 +26,14 @@ function connexionUser() {
                 console.log("User ID", data.userId);
                 console.log("Token", data.token);
                 messageErreur.textContent = "";
+                
 
                 // enregistrement du token dans le localstorage
                 localStorage.setItem("cléToken", data.token);
-                
+
                 // redirection vers la page d'accueil
                 window.location.href ="index.html";
+                
             }
 
             else if (response.status === 404) {
@@ -52,3 +55,6 @@ function connexionUser() {
 }
 
 connexionUser();
+
+
+ 
