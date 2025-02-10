@@ -464,6 +464,13 @@ footer nav ul {
 	
 }
 
+#returnModal {
+	position: absolute;
+	top: 50px;
+	left: 30px;
+	cursor: pointer;
+}
+
 .gallery2 {
 	
 	display: grid;
@@ -504,6 +511,7 @@ footer nav ul {
 	height: 36px;
 	width: 237px;
 	border-radius: 60px;
+	cursor: pointer;
 }
 
 .delete-photo {
