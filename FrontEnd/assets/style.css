@@ -423,13 +423,14 @@ footer nav ul {
 
 .modal-wrapper {
 	width: 630px;
-	height: 688px;
+	height: 670px;
 	border-radius: 10px;
 	background-color: white;
 	position: relative;
 	display: flex;
 	flex-direction: column;
-	justify-content: flex-start;
+	align-items: center;
+	
 	
 	
 	
@@ -459,14 +460,14 @@ footer nav ul {
 	border: none; 
 	cursor: pointer; 
 	position :absolute;
-	top : -50px;
-	left: 550px;
+	top : -70px;
+	left: 280px;
 	
 }
 
 #returnModal {
 	position: absolute;
-	top: 50px;
+	top: 30px;
 	left: 30px;
 	cursor: pointer;
 }
@@ -512,6 +513,7 @@ footer nav ul {
 	width: 237px;
 	border-radius: 60px;
 	cursor: pointer;
+	font-size: 14px;
 }
 
 .delete-photo {
@@ -537,3 +539,104 @@ footer nav ul {
 	right:4px;
 }
 
+.cadreAjoutPhoto {
+	display:flex;
+	position:relative;
+	flex-direction: column;
+	align-items: center;
+	width: 420px;
+	height: 169px;
+	background-color: #E8F1F6;
+}
+
+#iconePhoto {
+	font-size: 68px;
+	margin-top: 20px;
+	position: relative;
+	z-index: 2;
+}
+#addPhotoBtnModal2 {
+	border-radius: 20px;
+	margin-top: 10px;
+	margin-left : 0px;
+	font-size: 14px;
+	font-family: 'Work Sans';
+	color: #306685;
+	background-color: #CBD6DC;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 33px;
+	padding-right: 33px;
+	position: relative;
+	z-index: 2;
+	cursor: pointer;
+
+}
+
+.taillePhoto {
+	font-family: 'Work Sans';
+	font-size: 10px;
+	font-weight: 400;
+	color: #444444;
+	margin-top: 10px;
+}
+
+#previewImage {
+	position: absolute;
+	align-items: center;
+	z-index: 1;
+}
+
+.conteneurTitreAjoutPhoto {
+	width: 420px;
+}
+.conteneurCategorieAjoutPhoto {
+	width: 420px;
+}
+.titreAjoutPhoto {
+	font-family: 'Work Sans';
+	font-size: 14px;
+	font-weight: 500;
+	color: #3D3D3D;
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+
+.conteneurTitreAjoutPhoto input {
+	width: 420px;
+	height: 51px;
+	box-shadow: 0px 4px 14px 0px #00000017;
+	border:none;
+	font-family: Work Sans;
+	font-weight: 400;
+	font-size: 14px;
+	color : #444444;
+	
+}
+
+.conteneurCategorieAjoutPhoto select {
+	width: 424px;
+	height: 51px;
+	border:none;
+	background-color: #FFFFFF;
+	box-shadow: 0px 4px 14px 0px #00000017;
+	color: #6C6C6C;
+	margin-bottom: 20px;
+
+}
+
+.conteneurCategorieAjoutPhoto .valid-photo {
+	display:flex;
+	margin: 20px auto;
+	justify-content: center;
+	align-items: center;
+	font-family: 'Syne';
+	font-weight: 700;
+	background-color: #A7A7A7 ;
+	color: white;
+	height: 36px;
+	width: 237px;
+	border-radius: 60px;
+	cursor: pointer;
+	font-size: 14px;
+}

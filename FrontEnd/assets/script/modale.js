@@ -1,3 +1,5 @@
+
+
 //fonction pour ouvrir modale
 const openModal = function(modal) {
     
@@ -52,6 +54,18 @@ addPhotoBtn.addEventListener("click", function() {
     // Ouvrir la seconde modale
     const modal2 = document.querySelector("#modal2");
     openModal(modal2);
+    const addPhotoBtnModal2 = document.getElementById("addPhotoBtnModal2");
+    const inputPhoto = document.getElementById("inputPhoto");
+    const previewImage = document.getElementById("previewImage");
+    const iconePhoto = document.getElementById("iconePhoto");
+    const taillePhoto = document.querySelector(".taillePhoto");
+
+
+
+    previewImage.style.display = "none";
+    iconePhoto.style.display = "block";
+    addPhotoBtnModal2.style.display ="block";
+    taillePhoto.style.display ="block";
 });
 
 
@@ -65,3 +79,45 @@ returnModal.addEventListener("click", function() {
     const modal1 = document.querySelector("#modal1");
     openModal(modal1);
 });
+
+// Ajout photo modale 2 
+
+const addPhotoBtnModal2 = document.getElementById("addPhotoBtnModal2");
+const inputPhoto = document.getElementById("inputPhoto");
+const previewImage = document.getElementById("previewImage");
+const iconePhoto = document.getElementById("iconePhoto");
+const taillePhoto = document.querySelector(".taillePhoto");
+
+
+
+    previewImage.style.display = "none";
+    iconePhoto.style.display = "block";
+    addPhotoBtnModal2.style.display ="block";
+    taillePhoto.style.display ="block";
+
+
+addPhotoBtnModal2.addEventListener("click", () => inputPhoto.click());
+
+inputPhoto.addEventListener("change", (event)=> {
+    //création d'une variable pour récupéré le fichier séléctionné 
+    const file= event.target.files[0];
+
+        if (file) {
+            // Si il y a un fichier de sélect alors on crée une variable pour lire le fichier
+            const reader = new FileReader();
+
+            // onload nous permet de continué une fois que l'image a été lu
+            reader.onload = (event) => {
+                previewImage.src = event.target.result
+                previewImage.style.display = "block";
+
+                iconePhoto.style.display ="none";
+                addPhotoBtnModal2.style.display ="none";
+                taillePhoto.style.display = "none";
+            };
+            // puis on se sert de readAsDataUrl afin de convertir le fichier en une chaine de caractère  qui sera utilisé pour afficher l'image
+            reader.readAsDataURL(file);
+
+        }
+})
+

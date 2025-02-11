@@ -5,6 +5,23 @@ window.addEventListener("DOMContentLoaded", async () => {
     const reponse = await fetch(`http://localhost:5678/api/works`);
     const works = await reponse.json();
 
+    // récupération des catégories
+
+    const reponseCategories = await fetch(`http://localhost:5678/api/categories`);
+    const categories = await reponseCategories.json();
+
+    const categorieSelect = document.getElementById("categorie-select");
+
+    categories.forEach(category => {
+        const option = document.createElement("option")
+        option.value = category.id
+        option.textContent = category.name
+        
+        categorieSelect.appendChild(option);
+    });
+
+
+
     const loginLogout = document.querySelector("#loginLogoutLien");
     const modifierBtn = document.querySelector("#modifierBtn");
     const filtres = document.querySelector(".filtres");
