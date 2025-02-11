@@ -1,8 +1,8 @@
 
 
 //fonction pour ouvrir modale
-const openModal = function(modal) {
-    
+const openModal = function (modal) {
+
     modal.style.display = "flex";
     modal.removeAttribute("aria-hidden");
     modal.setAttribute("aria-modal", "true");
@@ -10,7 +10,7 @@ const openModal = function(modal) {
 
 // evenement pour appeler la fonction qui va ouvrir la modale 
 const modaleModifier = document.querySelector(".js-modal");
-modaleModifier.addEventListener("click", function(event) {
+modaleModifier.addEventListener("click", function (event) {
     event.preventDefault();
     const target = document.querySelector(event.target.getAttribute("href"));
     openModal(target);
@@ -18,15 +18,15 @@ modaleModifier.addEventListener("click", function(event) {
 
 //fonction pour fermer la modale 
 
-const closeModal = function(event) {
+const closeModal = function (event) {
     const modal = event.target.closest(".modal");
     if (modal) {
-        if (!event.target.closest(".modal-wrapper") || event.target.classList.contains("close-modal"))  {
-        modal.style.display = "none";
-        modal.setAttribute("aria-hidden", "true");
-        modal.removeAttribute("aria-modal");
-    }
-};
+        if (!event.target.closest(".modal-wrapper") || event.target.classList.contains("close-modal")) {
+            modal.style.display = "none";
+            modal.setAttribute("aria-hidden", "true");
+            modal.removeAttribute("aria-modal");
+        }
+    };
 }
 //evenement pour appeler la fonction qui va fermer la modale au clic sur la X 
 
@@ -47,7 +47,7 @@ modaleCloseOut.forEach(modal => {
 // fonction pour ouvrir la 2nd modale
 
 const addPhotoBtn = document.querySelector("#addPhotoBtn");
-addPhotoBtn.addEventListener("click", function() {
+addPhotoBtn.addEventListener("click", function () {
     // Fermer la première modale
     closeModal({ target: document.querySelector("#modal1") });
 
@@ -64,17 +64,17 @@ addPhotoBtn.addEventListener("click", function() {
 
     previewImage.style.display = "none";
     iconePhoto.style.display = "block";
-    addPhotoBtnModal2.style.display ="block";
-    taillePhoto.style.display ="block";
+    addPhotoBtnModal2.style.display = "block";
+    taillePhoto.style.display = "block";
 });
 
 
 // fonction retour modal 2
 
 const returnModal = document.querySelector("#returnModal");
-returnModal.addEventListener("click", function() {
-    
-    closeModal({target: document.querySelector("#modal2")});
+returnModal.addEventListener("click", function () {
+
+    closeModal({ target: document.querySelector("#modal2") });
 
     const modal1 = document.querySelector("#modal1");
     openModal(modal1);
@@ -87,37 +87,88 @@ const inputPhoto = document.getElementById("inputPhoto");
 const previewImage = document.getElementById("previewImage");
 const iconePhoto = document.getElementById("iconePhoto");
 const taillePhoto = document.querySelector(".taillePhoto");
+const inputTitrePhoto = document.getElementById("inputTitrePhoto");
+const validerAjoutPhotoBtn = document.getElementById("validerAjoutPhotoBtn");
 
 
 
-    previewImage.style.display = "none";
-    iconePhoto.style.display = "block";
-    addPhotoBtnModal2.style.display ="block";
-    taillePhoto.style.display ="block";
+
+previewImage.style.display = "none";
+iconePhoto.style.display = "block";
+addPhotoBtnModal2.style.display = "block";
+taillePhoto.style.display = "block";
 
 
 addPhotoBtnModal2.addEventListener("click", () => inputPhoto.click());
 
-inputPhoto.addEventListener("change", (event)=> {
+inputPhoto.addEventListener("change", (event) => {
     //création d'une variable pour récupéré le fichier séléctionné 
-    const file= event.target.files[0];
+    const file = event.target.files[0];
 
-        if (file) {
-            // Si il y a un fichier de sélect alors on crée une variable pour lire le fichier
-            const reader = new FileReader();
+    if (file) {
+        // Si il y a un fichier de sélect alors on crée une variable pour lire le fichier
+        const reader = new FileReader();
 
-            // onload nous permet de continué une fois que l'image a été lu
-            reader.onload = (event) => {
-                previewImage.src = event.target.result
-                previewImage.style.display = "block";
+        // onload nous permet de continué une fois que l'image a été lu
+        reader.onload = (event) => {
+            previewImage.src = event.target.result
+            previewImage.style.display = "block";
 
-                iconePhoto.style.display ="none";
-                addPhotoBtnModal2.style.display ="none";
-                taillePhoto.style.display = "none";
-            };
-            // puis on se sert de readAsDataUrl afin de convertir le fichier en une chaine de caractère  qui sera utilisé pour afficher l'image
-            reader.readAsDataURL(file);
+            iconePhoto.style.display = "none";
+            addPhotoBtnModal2.style.display = "none";
+            taillePhoto.style.display = "none";
+        };
+        // puis on se sert de readAsDataUrl afin de convertir le fichier en une chaine de caractère  qui sera utilisé pour afficher l'image
+        reader.readAsDataURL(file);
 
-        }
+    }
 })
 
+// Envoi données projet vers api 
+
+
+
+
+
+validerAjoutPhotoBtn.addEventListener("click", async () => {
+    const titreProjet = inputTitrePhoto.value;
+    const categorieId = window.categorieSelect.value;
+    const fichierImage = inputPhoto.files[0];
+
+    if (!titreProjet || !categorieId || !fichierImage) {
+
+        alert("Veuillez renseigner tous les champs !");
+        return;
+    }
+
+    const formDataProjet = new FormData();
+    formDataProjet.append("title", titreProjet);
+    formDataProjet.append("category", categorieId);
+    formDataProjet.append("image", fichierImage);
+
+    const token = localStorage.getItem("cléToken")
+
+    try {
+        const reponseProjet = await fetch(`http://localhost:5678/api/works`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`  // Ajout du token dans l'en-tête
+            },
+            body: formDataProjet,
+
+        });
+
+        if (reponseProjet.ok) {
+            const nouveauProjet = await reponseProjet.json();
+            console.log("Projet ajouté avec succées , nouveauProjet");
+
+            window.works.push(nouveauProjet);
+            window.genererWorks(window.works);
+        } else {
+            alert("Erreur lors de l'ajout du projet");
+        }
+    } catch (error) {
+        console.error("Erreur lors de la requete", error)
+        alert("Une erreur est survenue. Veuillez réessayer.")
+    }
+});

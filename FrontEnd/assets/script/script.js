@@ -5,6 +5,8 @@ window.addEventListener("DOMContentLoaded", async () => {
     const reponse = await fetch(`http://localhost:5678/api/works`);
     const works = await reponse.json();
 
+    window.works = works;
+
     // récupération des catégories
 
     const reponseCategories = await fetch(`http://localhost:5678/api/categories`);
@@ -20,6 +22,8 @@ window.addEventListener("DOMContentLoaded", async () => {
         categorieSelect.appendChild(option);
     });
 
+    window.categorieSelect = categorieSelect
+
 
 
     const loginLogout = document.querySelector("#loginLogoutLien");
@@ -29,6 +33,8 @@ window.addEventListener("DOMContentLoaded", async () => {
     // vérif tokken dans localstorage
 
     const token = localStorage.getItem("cléToken");
+
+
 
     if (token) {
         loginLogout.textContent = "Logout";
@@ -71,7 +77,7 @@ window.addEventListener("DOMContentLoaded", async () => {
             articleProjet.appendChild(nomElement);
 
         }
-
+    window.genererWorks = genererWorks;
     }
 
     genererWorks(works);
@@ -157,5 +163,10 @@ window.addEventListener("DOMContentLoaded", async () => {
         filtrerParCategorie(3);
     })
 
+
+    
+
 });
+
+
 
