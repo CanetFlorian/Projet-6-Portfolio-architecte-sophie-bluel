@@ -164,11 +164,51 @@ validerAjoutPhotoBtn.addEventListener("click", async () => {
 
             window.works.push(nouveauProjet);
             window.genererWorks(window.works);
+            window.location.href ="index.html"
         } else {
             alert("Erreur lors de l'ajout du projet");
         }
     } catch (error) {
         console.error("Erreur lors de la requete", error)
         alert("Une erreur est survenue. Veuillez réessayer.")
+    }
+    
+});
+
+// supression projet 
+
+const sectionProjetGalerie = document.querySelector(".gallery2");
+
+sectionProjetGalerie.addEventListener("click", async function(event) {
+    // on vérifie si l'élément cliqué est la corbeille
+    if (event.target.classList.contains("deleteIcon")) {
+        event.preventDefault();
+
+        // puis on récup l'id du projet qu'on veut suppr via data-id
+        const projetId = event.target.closest('figure').getAttribute('data-id');
+        console.log("ID du projet à supprimer : ", projetId);
+        
+        const token = localStorage.getItem("cléToken");
+
+        try {
+            const reponseDelete = await fetch(`http://localhost:5678/api/works/${projetId}`, {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+
+            if (reponseDelete.ok) {
+                // Retirer le projet de l'interface
+                event.target.closest('figure').remove();
+                alert("Projet supprimé avec succès");
+                window.location.href = "index.html"; 
+            } else {
+                alert("Erreur lors de la suppression du projet");
+            }
+        } catch (error) {
+            console.error("Erreur lors de la requête DELETE:", error);
+            alert("Une erreur est survenue. Veuillez réessayer.");
+        }
     }
 });

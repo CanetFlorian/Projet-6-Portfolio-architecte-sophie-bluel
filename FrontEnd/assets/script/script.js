@@ -90,6 +90,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         for (let i = 0; i < works.length; i++) {
             const projetGalerie = works[i];
             const articleProjetGalerie = document.createElement("figure")
+            articleProjetGalerie.setAttribute("data-id", projetGalerie.id);
            
             const imageElementGalerie = document.createElement("img");
             imageElementGalerie.src = projetGalerie.imageUrl;
@@ -97,10 +98,13 @@ window.addEventListener("DOMContentLoaded", async () => {
             const deleteIcon = document.createElement('i');
             deleteIcon.classList.add('fa-solid', 'fa-trash-can', 'fa-sm');
             deleteIcon.classList.add('delete-photo');
+            deleteIcon.classList.add('deleteIcon');
 
-            sectionProjetGalerie.appendChild(articleProjetGalerie);
+
             articleProjetGalerie.appendChild(imageElementGalerie);
             articleProjetGalerie.appendChild(deleteIcon);
+
+            sectionProjetGalerie.appendChild(articleProjetGalerie);
         }
     }
     genererWorksGalerie(works);
