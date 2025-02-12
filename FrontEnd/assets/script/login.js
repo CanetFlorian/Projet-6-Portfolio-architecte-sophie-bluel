@@ -37,12 +37,11 @@ async function connexionUser() {
             }
 
             else if (response.status === 404) {
-                const errorData = await response.json();
                 messageErreur.textContent = "Utilisateur introuvable"
             }
 
             else if (response.status === 401) {
-                messageErreur.textContent = "Utilisateur non autorisé"
+                messageErreur.textContent = "Utilisateur non autorisé, vérifiez votre mot de passe"
             }
 
 
