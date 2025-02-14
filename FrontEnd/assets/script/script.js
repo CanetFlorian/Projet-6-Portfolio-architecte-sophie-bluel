@@ -86,7 +86,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     function genererWorksGalerie(works) {
         const sectionProjetGalerie = document.querySelector(".gallery2");
-
+        sectionProjetGalerie.innerHTML= ""
         for (let i = 0; i < works.length; i++) {
             const projetGalerie = works[i];
             const articleProjetGalerie = document.createElement("figure")
@@ -106,6 +106,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
             sectionProjetGalerie.appendChild(articleProjetGalerie);
         }
+        window.genererWorksGalerie = genererWorksGalerie;
     }
     genererWorksGalerie(works);
     // création des boutons de filtres

@@ -21,13 +21,17 @@ modaleModifier.addEventListener("click", function (event) {
 const closeModal = function (event) {
     const modal = event.target.closest(".modal");
     if (modal) {
-        if (!event.target.closest(".modal-wrapper") || event.target.classList.contains("close-modal")) {
+        if (!event.target.closest(".modal-wrapper") || event.target.classList.contains("close-modal") || event.target.closest(".valid-photo")) {
             modal.style.display = "none";
             modal.setAttribute("aria-hidden", "true");
             modal.removeAttribute("aria-modal");
         }
     };
 }
+//
+
+
+
 //evenement pour appeler la fonction qui va fermer la modale au clic sur la X 
 
 const modaleCloseCroix = document.querySelectorAll(".close-modal");
@@ -158,19 +162,23 @@ validerAjoutPhotoBtn.addEventListener("click", async () => {
 
         });
 
-        if (reponseProjet.ok) {
+        if (reponseProjet.status === 201) {
             const nouveauProjet = await reponseProjet.json();
-            console.log("Projet ajouté avec succées , nouveauProjet");
+            console.log("Projet ajouté avec succées" , nouveauProjet);
 
             window.works.push(nouveauProjet);
-            window.genererWorks(window.works);
-            window.location.href ="index.html"
-        } else {
-            alert("Erreur lors de l'ajout du projet");
+            genererWorks(window.works);
+            genererWorksGalerie(window.works);
+        } else if (reponseProjet.status ===400) {
+            alert("Mauvaise requête");
+        } else if (reponseProjet.status === 401) {
+            alert("Non autorisé");
+        } else if (reponseProjet.status === 500) {
+            alert("Erreur inattendue");
         }
     } catch (error) {
         console.error("Erreur lors de la requete", error)
-        alert("Une erreur est survenue. Veuillez réessayer.")
+        alert("Erreur résaux. Veuillez réessayer.")
     }
     
 });
@@ -183,6 +191,7 @@ sectionProjetGalerie.addEventListener("click", async function(event) {
     // on vérifie si l'élément cliqué est la corbeille
     if (event.target.classList.contains("deleteIcon")) {
         event.preventDefault();
+        event.target.parentNode.remove();
 
         // puis on récup l'id du projet qu'on veut suppr via data-id
         const projetId = event.target.closest('figure').getAttribute('data-id');
@@ -198,17 +207,21 @@ sectionProjetGalerie.addEventListener("click", async function(event) {
                 }
             });
 
-            if (reponseDelete.ok) {
+            if (reponseDelete.status === 200) {
                 // Retirer le projet de l'interface
                 event.target.closest('figure').remove();
                 alert("Projet supprimé avec succès");
-                window.location.href = "index.html"; 
-            } else {
-                alert("Erreur lors de la suppression du projet");
+                window.works = window.works.filter(projet => projet.id !== parseInt(projetId));
+                genererWorks(window.works);
+                genererWorksGalerie(window.works);
+            } else if (reponseDelete.status === 401) {
+                alert("Non autorisé");
+            } else if (reponseDelete.status === 500) {
+                alert("Comportement inattendu")
             }
         } catch (error) {
             console.error("Erreur lors de la requête DELETE:", error);
-            alert("Une erreur est survenue. Veuillez réessayer.");
+            alert("Erreur résaux. Veuillez réessayer.");
         }
     }
 });
