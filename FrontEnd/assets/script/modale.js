@@ -21,7 +21,7 @@ modaleModifier.addEventListener("click", function (event) {
 const closeModal = function (event) {
     const modal = event.target.closest(".modal");
     if (modal) {
-        if (!event.target.closest(".modal-wrapper") || event.target.classList.contains("close-modal") || event.target.closest(".valid-photo")) {
+        if (!event.target.closest(".modal-wrapper") || event.target.classList.contains("close-modal") ) {
             modal.style.display = "none";
             modal.setAttribute("aria-hidden", "true");
             modal.removeAttribute("aria-modal");
@@ -138,12 +138,17 @@ validerAjoutPhotoBtn.addEventListener("click", async () => {
     const titreProjet = inputTitrePhoto.value;
     const categorieId = window.categorieSelect.value;
     const fichierImage = inputPhoto.files[0];
+    console.log(window.categorieSelect)
+    if ( (titreProjet === '' || categorieId === "" || !fichierImage) ) {
 
-    if (!titreProjet || !categorieId || !fichierImage) {
-
+        
         alert("Veuillez renseigner tous les champs !");
+        
         return;
+        
     }
+
+    else {
 
     const formDataProjet = new FormData();
     formDataProjet.append("title", titreProjet);
@@ -180,8 +185,19 @@ validerAjoutPhotoBtn.addEventListener("click", async () => {
         console.error("Erreur lors de la requete", error)
         alert("Erreur résaux. Veuillez réessayer.")
     }
-    
+}
+    inputPhoto.value = '';
+    inputTitrePhoto.value = '';
+    window.categorieSelect.value = '';
+
+    previewImage.style.display = "none" ; 
+    previewImage.src = '';
+    iconePhoto.style.display = "block"; 
+    addPhotoBtnModal2.style.display = "block"; 
+    taillePhoto.style.display = "block"; 
 });
+
+
 
 // supression projet 
 

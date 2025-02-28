@@ -69,18 +69,20 @@
 				<i id="returnModal" class="fa-solid fa-arrow-left fa-lg"></i>
 				<div class="cadreAjoutPhoto">
 					<i id="iconePhoto" class="fa-regular fa-image" style="color: #c0c0c0;"></i>
-					<button id="addPhotoBtnModal2" class="ajoutPhotoBtn">+ Ajouter photo</button>
+					<button id="addPhotoBtnModal2" class="ajoutPhotoBtn">+ Ajouter photo </button>
 					<p class="taillePhoto">jpg, png : 4mo max</p>
 					<input type="file" id="inputPhoto" name="imageUrl" style="display:none;" />
 					<img id="previewImage" src="" alt="Prévisualisation de l'image" style="display:none;" width="129px"; height="169px">
 				</div>
 				<div class="conteneurTitreAjoutPhoto">
 					<h4 class ="titreAjoutPhoto">Titre</h4>
-					<input type="text" id="inputTitrePhoto">
+					<input type="text" id="inputTitrePhoto" >
 				</div>
 				<div class="conteneurCategorieAjoutPhoto">
 					<h4 class ="titreAjoutPhoto">Catégorie</h4>
-					<select name="categorie-select" id="categorie-select" ></select>
+					<select name="categorie-select" id="categorie-select">
+						<option value="" selected>Sélectionner la catégorie</option>
+					</select>
 					<div class="trait-gallerie"></div>
 					<button id ="validerAjoutPhotoBtn" class="valid-photo">Valider</button>
 				</div>
