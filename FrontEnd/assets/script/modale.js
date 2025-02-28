@@ -191,12 +191,16 @@ sectionProjetGalerie.addEventListener("click", async function(event) {
     // on vérifie si l'élément cliqué est la corbeille
     if (event.target.classList.contains("deleteIcon")) {
         event.preventDefault();
-        event.target.parentNode.remove();
-
+        
         // puis on récup l'id du projet qu'on veut suppr via data-id
         const projetId = event.target.closest('figure').getAttribute('data-id');
         console.log("ID du projet à supprimer : ", projetId);
-        
+
+        const figureElement = event.target.closest('figure');
+        figureElement.remove();
+
+       
+
         const token = localStorage.getItem("cléToken");
 
         try {
@@ -207,13 +211,15 @@ sectionProjetGalerie.addEventListener("click", async function(event) {
                 }
             });
 
-            if (reponseDelete.status === 200) {
-                // Retirer le projet de l'interface
-                event.target.closest('figure').remove();
-                alert("Projet supprimé avec succès");
+            console.log('Réponse de la suppression', reponseDelete.status);
+
+            if (reponseDelete.status === 204) {
                 window.works = window.works.filter(projet => projet.id !== parseInt(projetId));
                 genererWorks(window.works);
                 genererWorksGalerie(window.works);
+                alert("Projet supprimé avec succès");
+
+                
             } else if (reponseDelete.status === 401) {
                 alert("Non autorisé");
             } else if (reponseDelete.status === 500) {
