@@ -7,7 +7,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     window.works = works;
 
-    // récupération des catégories
+    // récupération des catégories modale
 
     const reponseCategories = await fetch(`http://localhost:5678/api/categories`);
     const categories = await reponseCategories.json();
