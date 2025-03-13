@@ -9,11 +9,13 @@ const openModal = function (modal) {
 }
 
 // evenement pour appeler la fonction qui va ouvrir la modale 
-const modaleModifier = document.querySelector(".js-modal");
-modaleModifier.addEventListener("click", function (event) {
-    event.preventDefault();
-    const target = document.querySelector(event.target.getAttribute("href"));
-    openModal(target);
+
+const modifierBtn = document.querySelector("#modifierBtn");
+
+
+modifierBtn.addEventListener("click", function () {
+    const targetModal = document.querySelector("#modal1");
+    openModal(targetModal);
 });
 
 //fonction pour fermer la modale 
@@ -115,7 +117,7 @@ inputPhoto.addEventListener("change", (event) => {
 
         // onload nous permet de continué une fois que l'image a été lu
         reader.onload = (event) => {
-            previewImage.src = event.target.result
+            previewImage.src = event.target.result;
             previewImage.style.display = "block";
 
             iconePhoto.style.display = "none";
