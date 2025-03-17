@@ -7,50 +7,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     window.works = works;
 
-    // récupération des catégories modale
 
-    const reponseCategories = await fetch(`http://localhost:5678/api/categories`);
-    const categories = await reponseCategories.json();
-
-    const categorieSelect = document.getElementById("categorie-select");
-
-    categories.forEach(category => {
-        const option = document.createElement("option")
-        option.value = category.id
-        option.textContent = category.name
-        
-        categorieSelect.appendChild(option);
-    });
-
-    window.categorieSelect = categorieSelect
-
-
-
-    const loginLogout = document.querySelector("#loginLogoutLien");
-    const modifierBtn = document.querySelector("#modifierBtn");
-    const filtres = document.querySelector(".filtres");
-
-    // vérif tokken dans localstorage
-
-    const token = localStorage.getItem("cléToken");
-
-
-
-    if (token) {
-        loginLogout.textContent = "Logout";
-        filtres.style.display = "none";
-        modifierBtn.style.display = "flex";
-
-        loginLogout.addEventListener("click", () => {
-            localStorage.removeItem("cléToken");
-
-        });
-    } else {
-
-        loginLogout.textContent = "Login";
-        filtres.style.display = "flex";
-        modifierBtn.style.display = "none";
-    };
 
 
     //Génération des projets via API
@@ -82,33 +39,11 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     genererWorks(works);
 
-    // génération galerie modale
+    // Récupération des catégories 
 
-    function genererWorksGalerie(works) {
-        const sectionProjetGalerie = document.querySelector(".gallery2");
-        sectionProjetGalerie.innerHTML= ""
-        for (let i = 0; i < works.length; i++) {
-            const projetGalerie = works[i];
-            const articleProjetGalerie = document.createElement("figure")
-            articleProjetGalerie.setAttribute("data-id", projetGalerie.id);
-           
-            const imageElementGalerie = document.createElement("img");
-            imageElementGalerie.src = projetGalerie.imageUrl;
-            // Créer l'icône de la corbeille
-            const deleteIcon = document.createElement('i');
-            deleteIcon.classList.add('fa-solid', 'fa-trash-can', 'fa-sm');
-            deleteIcon.classList.add('delete-photo');
-            deleteIcon.classList.add('deleteIcon');
+    const reponseCategories = await fetch(`http://localhost:5678/api/categories`);
+    const categories = await reponseCategories.json();
 
-
-            articleProjetGalerie.appendChild(imageElementGalerie);
-            articleProjetGalerie.appendChild(deleteIcon);
-
-            sectionProjetGalerie.appendChild(articleProjetGalerie);
-        }
-        window.genererWorksGalerie = genererWorksGalerie;
-    }
-    genererWorksGalerie(works);
     // création des boutons de filtres
 
     const conteneurFiltres = document.querySelector(".filtres");
@@ -167,6 +102,80 @@ window.addEventListener("DOMContentLoaded", async () => {
     buttonHotel.addEventListener("click", function () {
         filtrerParCategorie(3);
     })
+
+
+
+    // génération galerie modale
+
+    function genererWorksGalerie(works) {
+        const sectionProjetGalerie = document.querySelector(".gallery2");
+        sectionProjetGalerie.innerHTML= ""
+        for (let i = 0; i < works.length; i++) {
+            const projetGalerie = works[i];
+            const articleProjetGalerie = document.createElement("figure")
+            articleProjetGalerie.setAttribute("data-id", projetGalerie.id);
+           
+            const imageElementGalerie = document.createElement("img");
+            imageElementGalerie.src = projetGalerie.imageUrl;
+            // Créer l'icône de la corbeille
+            const deleteIcon = document.createElement('i');
+            deleteIcon.classList.add('fa-solid', 'fa-trash-can', 'fa-sm');
+            deleteIcon.classList.add('delete-photo');
+            deleteIcon.classList.add('deleteIcon');
+
+
+            articleProjetGalerie.appendChild(imageElementGalerie);
+            articleProjetGalerie.appendChild(deleteIcon);
+
+            sectionProjetGalerie.appendChild(articleProjetGalerie);
+        }
+        window.genererWorksGalerie = genererWorksGalerie;
+    }
+    genererWorksGalerie(works);
+    
+        // récupération des catégories modale
+
+
+    
+        const categorieSelect = document.getElementById("categorie-select");
+    
+        categories.forEach(category => {
+            const option = document.createElement("option")
+            option.value = category.id
+            option.textContent = category.name
+            
+            categorieSelect.appendChild(option);
+        });
+    
+        window.categorieSelect = categorieSelect
+    
+    
+    
+        const loginLogout = document.querySelector("#loginLogoutLien");
+        const modifierBtn = document.querySelector("#modifierBtn");
+        const filtres = document.querySelector(".filtres");
+    
+        // vérif tokken dans localstorage
+    
+        const token = localStorage.getItem("cléToken");
+    
+    
+    
+        if (token) {
+            loginLogout.textContent = "Logout";
+            filtres.style.display = "none";
+            modifierBtn.style.display = "flex";
+    
+            loginLogout.addEventListener("click", () => {
+                localStorage.removeItem("cléToken");
+    
+            });
+        } else {
+    
+            loginLogout.textContent = "Login";
+            filtres.style.display = "flex";
+            modifierBtn.style.display = "none";
+        };
 
 
     
