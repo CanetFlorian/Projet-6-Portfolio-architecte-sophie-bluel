@@ -631,7 +631,7 @@ footer nav ul {
 	align-items: center;
 	font-family: 'Syne';
 	font-weight: 700;
-	background-color: #A7A7A7 ;
+	background-color:#1D6154; 
 	color: white;
 	height: 36px;
 	width: 237px;
@@ -639,4 +639,17 @@ footer nav ul {
 	cursor: pointer;
 	font-size: 14px;
 }
+
+
+
+#validerAjoutPhotoBtn[disabled] {
+    background-color: #A7A7A7 ;
+    cursor: pointer;
+}
+
+#validerAjoutPhotoBtn:not([disabled]) {
+    background-color: #1D6154; /* Couleur verte pour actif */
+    cursor: pointer;
+}
+
 

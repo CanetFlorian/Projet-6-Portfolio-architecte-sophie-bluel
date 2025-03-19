@@ -1,5 +1,4 @@
 
-
 //fonction pour ouvrir modale
 const openModal = function (modal) {
 
@@ -72,6 +71,8 @@ addPhotoBtn.addEventListener("click", function () {
     iconePhoto.style.display = "block";
     addPhotoBtnModal2.style.display = "block";
     taillePhoto.style.display = "block";
+
+    verifierChamps();
 });
 
 
@@ -105,7 +106,10 @@ addPhotoBtnModal2.style.display = "block";
 taillePhoto.style.display = "block";
 
 
-addPhotoBtnModal2.addEventListener("click", () => inputPhoto.click());
+addPhotoBtnModal2.addEventListener("click", () => {
+    inputPhoto.click();
+verifierChamps();
+});
 
 inputPhoto.addEventListener("change", (event) => {
     //création d'une variable pour récupéré le fichier séléctionné 
@@ -123,6 +127,7 @@ inputPhoto.addEventListener("change", (event) => {
             iconePhoto.style.display = "none";
             addPhotoBtnModal2.style.display = "none";
             taillePhoto.style.display = "none";
+            verifierChamps();
         };
         // puis on se sert de readAsDataUrl afin de convertir le fichier en une chaine de caractère  qui sera utilisé pour afficher l'image
         reader.readAsDataURL(file);
@@ -130,27 +135,27 @@ inputPhoto.addEventListener("change", (event) => {
     }
 })
 
+
 // Envoi données projet vers api 
-
-
-
-
 
 validerAjoutPhotoBtn.addEventListener("click", async () => {
     const titreProjet = inputTitrePhoto.value;
     const categorieId = window.categorieSelect.value;
     const fichierImage = inputPhoto.files[0];
     console.log(window.categorieSelect)
-    if ( (titreProjet === '' || categorieId === "" || !fichierImage) ) {
+    if ( (titreProjet === '' || categorieId === '' || !fichierImage) ) {
 
         
         alert("Veuillez renseigner tous les champs !");
+       
         
         return;
         
     }
 
     else {
+
+   
 
     const formDataProjet = new FormData();
     formDataProjet.append("title", titreProjet);
@@ -176,6 +181,18 @@ validerAjoutPhotoBtn.addEventListener("click", async () => {
             window.works.push(nouveauProjet);
             genererWorks(window.works);
             genererWorksGalerie(window.works);
+
+            inputPhoto.value = '';
+            inputTitrePhoto.value = '';
+            window.categorieSelect.value = '';
+        
+            previewImage.style.display = "none" ; 
+            previewImage.src = '';
+            iconePhoto.style.display = "block"; 
+            addPhotoBtnModal2.style.display = "block"; 
+            taillePhoto.style.display = "block"; 
+
+            verifierChamps()
         } else if (reponseProjet.status ===400) {
             alert("Mauvaise requête");
         } else if (reponseProjet.status === 401) {
@@ -188,15 +205,7 @@ validerAjoutPhotoBtn.addEventListener("click", async () => {
         alert("Erreur résaux. Veuillez réessayer.")
     }
 }
-    inputPhoto.value = '';
-    inputTitrePhoto.value = '';
-    window.categorieSelect.value = '';
 
-    previewImage.style.display = "none" ; 
-    previewImage.src = '';
-    iconePhoto.style.display = "block"; 
-    addPhotoBtnModal2.style.display = "block"; 
-    taillePhoto.style.display = "block"; 
 });
 
 
@@ -249,3 +258,28 @@ sectionProjetGalerie.addEventListener("click", async function(event) {
         }
     }
 });
+window.categorieSelect = document.getElementById("categorie-select");
+function verifierChamps() {
+    const titreProjet = inputTitrePhoto.value;
+    const categorieId = window.categorieSelect.value;
+    const fichierImage = inputPhoto.files[0];
+ 
+
+
+    if (titreProjet !== '' && categorieId !== '' && categorieId !== 'Sélectionner la catégorie' && fichierImage) {
+        
+        validerAjoutPhotoBtn.disabled = false;
+        validerAjoutPhotoBtn.style.backgroundColor = "#1D6154"; 
+    } else {
+      
+        validerAjoutPhotoBtn.disabled = true;
+        validerAjoutPhotoBtn.style.backgroundColor = ""; 
+    }
+}
+
+inputTitrePhoto.addEventListener("input", verifierChamps);
+window.categorieSelect.addEventListener("change", verifierChamps);
+inputPhoto.addEventListener("change", verifierChamps);
+
+
+document.addEventListener("DOMContentLoaded", verifierChamps);
